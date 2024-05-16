@@ -1,7 +1,13 @@
-#main file to run
+# main file to run
 
-#get teams
+# get teams
+# -set rosters for both teams.
+# -generate players/teams if necessary.
 
-#get location
+# get location
+# -select location or generate a field/surface
+# -set weather conditions and time of day
 
-#play ball
+# play ball
+# -simulate gameplay
+# -output a play-by-play and stats for each player
