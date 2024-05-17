@@ -18,4 +18,13 @@ class Player:
   strength = 0
 
   # Stats - Dictionary (maybe should be list?) that is added to after every game
-  statistics = {}
+  statistics = dict(hits=0,
+                    walks=0,
+                    strikeouts=0,
+                    hit_by_pitch=0,
+                    runs=0,
+                    rbis=0,
+                    singles=0,
+                    doubles=0,
+                    triples=0,
+                    home_runs=0)
