@@ -17,7 +17,7 @@ class Player:
   acceleration = 0
   strength = 0
 
-  # Stats - Dictionary (maybe should be list?) that is added to after every game
+  # Stats - Dictionary that is added to after every game
   statistics = dict(hits=0,
                     walks=0,
                     strikeouts=0,
