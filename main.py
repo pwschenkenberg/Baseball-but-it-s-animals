@@ -14,8 +14,8 @@ from parameters import *
 # -simulate gameplay
 # -output a play-by-play and stats for each player
 
-STRIKE_ZONE_HEIGHT = 250
-STRIKE_ZONE_WIDTH = 150
+STRIKE_ZONE_HEIGHT = STRIKE_ZONE_HEIGHT_FT * FT_TO_PX_STRIKE_ZONE
+STRIKE_ZONE_WIDTH = STRIKE_ZONE_WIDTH_FT * FT_TO_PX_STRIKE_ZONE
 pitchx = 0
 pitchy = 0
 
