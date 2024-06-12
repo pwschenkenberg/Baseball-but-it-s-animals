@@ -15,15 +15,16 @@ import random
 
 STRIKE_ZONE_HEIGHT = 250
 STRIKE_ZONE_WIDTH = 150
+pitchx = 0
+pitchy = 0
 
 def throwPitch():
-    #Choose pitch type
-    #aim pitch
-    #throw pitch
-
     pitchAccuracy = 1.0
     pitchSpeed = 1.0
     pitchTarget = (0,0)
+
+    global pitchx
+    global pitchy
 
     pitchx = random.randint(0,250)
     pitchy = random.randint(50,350)
@@ -39,16 +40,38 @@ def throwPitch():
                     ballOrStrike = "Strike"
 
     dpg.delete_item("lastPitchCall")
+    dpg.delete_item("lastSwing")
     dpg.add_text(ballOrStrike,tag="lastPitchCall",parent="strike_zone")
+
+def swingAtPitch():
+    bat_length = 100
+    bat_width = 25
+
+    #batx = random.randint(min(0,pitchx-100),max(pitchx+100,250-bat_length))
+    #baty = random.randint(min(50,pitchy-50),max(pitchy+75,350-bat_width))
+
+    batx = random.randint(pitchx-150,pitchx+50)
+    baty = random.randint(pitchy-50,pitchy+75)
+
+    dpg.delete_item("lastSwing")
+    dpg.draw_rectangle(pmin=(batx,baty),pmax=(batx+bat_length,baty+bat_width),tag="lastSwing",parent="strike_zone")
 
 
 
 dpg.create_context()
-dpg.create_viewport(title='Play Ball', width=600, height=600)
+dpg.create_viewport(title='Play Ball', width=800, height=500)
 
-with dpg.window(width=300,height=500,tag="strike_zone"):
+with dpg.window(width=300,height=500,tag="strike_zone",pos=(0,0)):
     dpg.add_button(label="Throw Pitch",callback=throwPitch)
+    dpg.add_button(label="Swing Bat",callback=swingAtPitch)
     dpg.draw_rectangle(pmin=(50, 100), pmax=(50+STRIKE_ZONE_WIDTH, 100+STRIKE_ZONE_HEIGHT))
+
+with dpg.window(width=500,height=500,tag="Baseball Field",pos=(300,0)):
+    dpg.draw_rectangle(pmin=(50,50),pmax=(110,110),tag="diamond")
+    dpg.draw_line((50,50),(330,50))
+    dpg.draw_line((50,50),(50,330))
+    dpg.draw_polyline([(330,50),(330,100),(300,220),(220,300),(100,330),(50,330)])
+
 
 dpg.setup_dearpygui()
 dpg.show_viewport()
