@@ -1,5 +1,6 @@
 import dearpygui.dearpygui as dpg
 import random
+from parameters import *
 
 # get teams
 # -set rosters for both teams.
