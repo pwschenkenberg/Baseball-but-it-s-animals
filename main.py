@@ -60,14 +60,14 @@ def swingAtPitch():
 
 
 dpg.create_context()
-dpg.create_viewport(title='Play Ball', width=800, height=500)
+dpg.create_viewport(title='Play Ball', width=VIEWPORT_1_WIDTH, height=VIEWPORT_1_HEIGHT)
 
-with dpg.window(width=300,height=500,tag="strike_zone",pos=(0,0)):
+with dpg.window(width=STRIKE_ZONE_WINDOW_WIDTH,height=STRIKE_ZONE_HEIGHT,tag="strike_zone",pos=(0,0)):
     dpg.add_button(label="Throw Pitch",callback=throwPitch)
     dpg.add_button(label="Swing Bat",callback=swingAtPitch)
     dpg.draw_rectangle(pmin=(50, 100), pmax=(50+STRIKE_ZONE_WIDTH, 100+STRIKE_ZONE_HEIGHT))
 
-with dpg.window(width=500,height=500,tag="Baseball Field",pos=(300,0)):
+with dpg.window(width=FIELD_WINDOW_WIDTH,height=FIELD_WINDOW_HEIGHT,tag="Baseball Field",pos=(STRIKE_ZONE_WINDOW_WIDTH,0)):
     dpg.draw_rectangle(pmin=(50,50),pmax=(110,110),tag="diamond")
     dpg.draw_line((50,50),(330,50))
     dpg.draw_line((50,50),(50,330))
