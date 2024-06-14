@@ -45,40 +45,61 @@ def throwPitch():
     dpg.add_text(ballOrStrike,tag="lastPitchCall",parent="strike_zone")
 
 def swingAtPitch():
-    bat_length = 100
-    bat_width = 25
+    bat_length = BAT_LENGTH
+    bat_width = BAT_WIDTH
 
-    #batx = random.randint(min(0,pitchx-100),max(pitchx+100,250-bat_length))
-    #baty = random.randint(min(50,pitchy-50),max(pitchy+75,350-bat_width))
-
-    batx = random.randint(pitchx-150,pitchx+50)
-    baty = random.randint(pitchy-50,pitchy+75)
+    batx = random.randint(pitchx-120,pitchx+20)
+    baty = random.randint(pitchy-65,pitchy+35)
 
     dpg.delete_item("lastSwing")
-    dpg.draw_rectangle(pmin=(batx,baty),pmax=(batx+bat_length,baty+bat_width),tag="lastSwing",parent="strike_zone")
+    dpg.delete_item("lastHitPath")
+    dpg.draw_rectangle(pmin=(batx,baty),pmax=(batx+bat_length,baty+bat_width),
+                       tag="lastSwing",parent="strike_zone")
+
+    if batHitsBall(pitchx,pitchy,batx,baty):
+        hitx = random.randint(0,450)
+        hity = random.randint(0,450)
+        dpg.draw_line((50,50),(hitx,hity),tag="lastHitPath",parent="Baseball Field")
+        dpg.draw_circle(center=(hitx,hity),radius=3,parent="ballLocation")
+
+def batHitsBall(px,py,bx,by):
+    if px > bx:
+        if px < bx + BAT_LENGTH:
+            if py > by:
+                if py < by + BAT_WIDTH:
+                    return True
+    return False
+
+def clearField():
+    dpg.delete_item("ballLocation",children_only=True)
+    dpg.delete_item("lastHitPath")
 
 
 
 dpg.create_context()
 dpg.create_viewport(title='Play Ball', width=VIEWPORT_1_WIDTH, height=VIEWPORT_1_HEIGHT)
 
-with dpg.window(width=STRIKE_ZONE_WINDOW_WIDTH,height=STRIKE_ZONE_HEIGHT,tag="strike_zone",pos=(0,0)):
+with dpg.window(width=STRIKE_ZONE_WINDOW_WIDTH,height=STRIKE_ZONE_WINDOW_HEIGHT,tag="strike_zone",
+                pos=(0,0),no_close=True,no_collapse=True,no_move=True):
     dpg.add_button(label="Throw Pitch",callback=throwPitch)
     dpg.add_button(label="Swing Bat",callback=swingAtPitch)
+    dpg.add_button(label="Clear",callback=clearField)
     dpg.draw_rectangle(pmin=(50, 100), pmax=(50+STRIKE_ZONE_WIDTH, 100+STRIKE_ZONE_HEIGHT))
 
-with dpg.window(width=FIELD_WINDOW_WIDTH,height=FIELD_WINDOW_HEIGHT,tag="Baseball Field",pos=(STRIKE_ZONE_WINDOW_WIDTH,0)):
-    dpg.draw_rectangle(pmin=(50,50),pmax=(110,110),tag="diamond")
-    dpg.draw_line((50,50),(330,50))
-    dpg.draw_line((50,50),(50,330))
-    dpg.draw_polyline([(330,50),(330,100),(300,220),(220,300),(100,330),(50,330)])
+with dpg.window(width=FIELD_WINDOW_WIDTH,height=FIELD_WINDOW_HEIGHT,tag="Baseball Field",
+                pos=(STRIKE_ZONE_WINDOW_WIDTH,0),no_close=True,no_collapse=True,no_move=True):
+
+    dpg.draw_circle(center=(50,50),radius=330,fill=COLOR_FIELD_GRASS)
+    dpg.draw_circle(center=(50, 50), radius=110,fill=COLOR_FIELD_DIRT)
+    dpg.draw_rectangle(pmin=(50,50),pmax=(110,110),tag="diamond",fill=COLOR_FIELD_GRASS)
+
+    dpg.draw_polygon(points=[[-50,-50],[600,-50],[600,50],[50,50],[50,600],[-50,600]],fill=COLOR_BACKGROUND)
+
+    with dpg.draw_layer(tag="ballLocation"):
+        pass
 
 
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.start_dearpygui()
 dpg.destroy_context()
-
-
-
-
